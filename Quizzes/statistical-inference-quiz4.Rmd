@@ -132,7 +132,7 @@ sd <- .04
 alpha <- .05
 pw <- .9
 
-round((power.t.test(power = pw, delta = mu, sd = sd, sig.level = alpha, type = "one.sample", alternative = "one.sided")$n)/10) * 10
+round((power.t.test(power = pw, delta = mu, sd = sd, sig.level = alpha, type = "one.sample", alternative = "one.sided")$n) / 10) * 10
 
 ```
 
