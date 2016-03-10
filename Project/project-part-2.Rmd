@@ -1,0 +1,90 @@
+---
+output: pdf_document
+---
+# The Exponential Distribution in R *versus* the Central Limit Theorem (CLT) — Part 2
+## Assignment: Statistical Inference Course Project
+### Sample Project Report Structure
+#### Author: calaca
+##### Course available at [Coursera](https://www.coursera.org/learn/statistical-inference/)
+
+***
+
+## Overview
+Now in the second portion of the class, we're going to analyze the ToothGrowth data in the R datasets package.
+
+1. Load the ToothGrowth data and perform some basic exploratory data analyses;   
+2. Provide a basic summary of the data;   
+3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering);   
+4. State your conclusions and the assumptions needed for your conclusions. 
+
+## About the data
+The response is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two delivery methods, (orange juice or ascorbic acid (a form of vitamin C and coded as VC).
+
+A data frame with 60 observations on 3 variables.
+
+[ ,1]	 len	 numeric	 Tooth length  
+[ ,2]	 supp	 factor	 Supplement type (VC or OJ)   
+[ ,3]	 dose	 numeric	 Dose in milligrams/day 
+
+**Source: **C. I. Bliss (1952) The Statistics of Bioassay. Academic Press.
+
+## Analysis
+
+### 1. Load the ToothGrowth data and perform some basic exploratory data analyses 
+
+```{R echo = TRUE}
+# Loading the dataset
+library(datasets)
+data <- ToothGrowth
+
+# Taking a look at the first parts of the dataset
+head(ToothGrowth)
+
+# Taking a look at how the data object is structured
+str(data)
+
+# Converting dose to factor instead of numeric
+data$dose <- as.factor(data$dose)
+
+# Checking the conversion
+str(data)
+
+```
+
+### 2. Provide a basic summary of the data
+```{R echo = TRUE}
+# Summary of the dataset
+summary(data)
+
+library(ggplot2)
+library(ggthemes)
+ggplot(data, aes(x = dose, y = len, fill = supp)) + geom_bar(stat = "identity") +
+  facet_grid(. ~ supp) + labs(x = expression("Dose"[mg/day])) + ylab("Tooth length") +
+  guides(fill = guide_legend(title = "Supplement type (VC or OJ)\n")) + 
+  ggtitle("The Effect of Vitamin C on Tooth Growth in Guinea Pigs") +
+  theme_economist()
+```
+
+Observing the plot, we see that the amount of supplement (OJ or VC) given to a guinea pig seems to make their teeth grow bigger.
+
+### 3. Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose. (Only use the techniques from class, even if there's other approaches worth considering)
+
+```{R echo = TRUE}
+# H0: does supplement type affects tooth growth?
+t.test(len ~ supp, data)
+```
+P-value (0.06063) is greater than 0.05, therefore we cannot reject the null hypothesis (H~0~).
+
+```{R echo = TRUE}
+# Fetching the data again (now we need dosage as numeric)
+data <- ToothGrowth
+# Ha: does dosage affects tooth growth?
+t.test(data$len, data$dose)
+```
+P-value (< 2.2e-16 or < 0.00000000000000022) is less than 0.05, therefore we can reject the alternative hypothesis (H~a~).  
+
+## 4. State your conclusions and the assumptions needed for your conclusions
+**H~0~ = supplement type affects tooth growth: **This hypothesis cannot be rejected. Which means that there is not enough evidence to affirm that the a type of supplement is better than the other.   
+**H~a~ = dosage affects tooth growth: **This hypothesis can be rejected. Which means that the amount of supplement affects the tooth growth.Thus, when dosage is increased the guinea pig's tooth grows bigger.
+
+***
