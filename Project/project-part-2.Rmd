@@ -64,6 +64,6 @@ H~a~ = dosage affects tooth growth: P-value (< 2.2e-16 or < 0.00000000000000022)
 **H~a~ = dosage affects tooth growth: **This hypothesis can be rejected. Which means that the amount of supplement affects the tooth growth.Thus, when dosage is increased the guinea pig's tooth grows bigger.
 **Assumptions: **   
 1. The 60 guinea pigs used is the study represent the whole population of guinea pigs;   
-2. Variance is different for the sample and the theoritical group.   
+2. Variance is different for the sample and the theoretical group.   
 
 ***
